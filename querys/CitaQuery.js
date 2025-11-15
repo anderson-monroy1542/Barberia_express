@@ -1,8 +1,5 @@
 module.exports = {
-	/**
-	 * CORREGIDO: Inserta los nuevos campos de la tabla Cita
-	 */
-	insertar(cita) {
+tar(cita) {
 		var sql = `INSERT INTO cita (
 			Fecha,
 			Dia,
@@ -23,11 +20,7 @@ module.exports = {
 		return sql;
 	},
 
-	/**
-	 * CORREGIDO: Ya no hace JOIN con 'horarios'.
-	 * Lee Fecha/Dia/Hora directamente de 'cita'.
-	 * Hace JOIN con 'usuarios' usando 'Id_Barbero' de la cita.
-	 */
+
 	obtenerTodos() {
 		var sql = `SELECT c.Id_cita,
 			c.Fecha,
@@ -51,9 +44,7 @@ module.exports = {
 		return sql;
 	},
 
-	/**
-	 * CORREGIDO: Busca por 'c.Dia' en lugar de 'h.Dia'.
-	 */
+
 	obtenerByDiaConDetalles(dia) {
 		var sql = `SELECT c.Id_cita,
 			c.Fecha,
@@ -83,9 +74,7 @@ module.exports = {
 		return sql;
 	},
 
-	/**
-	 * CORREGIDO: La lógica de JOINs es la nueva.
-	 */
+
 	obtenerByIdConDetalles(idCita) {
 		var sql = `SELECT c.Id_cita,
 			c.Fecha,
@@ -109,9 +98,7 @@ module.exports = {
 		return sql;
 	},
 
-	/**
-	 * CORREGIDO: La lógica de JOINs es la nueva.
-	 */
+
 	obtenerByUsuarioConDetalles(idUsuario) {
 		var sql = `SELECT c.Id_cita,
 			c.Fecha,
@@ -136,9 +123,7 @@ module.exports = {
 		return sql;
 	},
 
-	/**
-	 * CORREGIDO: Actualiza los nuevos campos.
-	 */
+
 	actualizar(cita) {
 		var sql = `UPDATE cita SET
 			Fecha = '${cita.Fecha}',
