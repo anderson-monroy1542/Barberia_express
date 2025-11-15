@@ -1,5 +1,5 @@
 const { pool } = require("../database/MySQLConexion");
-const horarioDiasQuery = require("../querys/HorarioDiasQuery");
+const horarioDiasQuery = require("../querys/HorariosDiasQuery");
 
 module.exports = {
     async insertar(horario) {

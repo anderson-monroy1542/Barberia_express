@@ -1,12 +1,21 @@
 module.exports = {
+	/**
+	 * CORREGIDO: Inserta los nuevos campos de la tabla Cita
+	 */
 	insertar(cita) {
 		var sql = `INSERT INTO cita (
-			Id_horario,
+			Fecha,
+			Dia,
+			Hora,
+			Id_Barbero,
 			Id_servicio,
 			Id_estadoC,
 			Id_usuario
 		) VALUES (
-			'${cita.Id_horario}',
+			'${cita.Fecha}',
+			'${cita.Dia}',
+			'${cita.Hora}',
+			'${cita.Id_Barbero}',
 			'${cita.Id_servicio}',
 			'${cita.Id_estadoC}',
 			'${cita.Id_usuario}'
@@ -14,53 +23,58 @@ module.exports = {
 		return sql;
 	},
 
-
+	/**
+	 * CORREGIDO: Ya no hace JOIN con 'horarios'.
+	 * Lee Fecha/Dia/Hora directamente de 'cita'.
+	 * Hace JOIN con 'usuarios' usando 'Id_Barbero' de la cita.
+	 */
 	obtenerTodos() {
 		var sql = `SELECT c.Id_cita,
-		h.Dia,
-		h.Hora,
-		s.Servicio,
-		s.Precio,
-		ec.EstadoC,
-		c.Id_horario,
-		c.Id_servicio,
-		c.Id_estadoC,
-		h.Id_usuario AS Id_barbero,
-		uh.Nombre AS BarberoNombre,
-		c.Id_usuario AS Id_cliente,
-		uc.Nombre AS ClienteNombre
-	FROM cita c
-	JOIN horarios h ON c.Id_horario = h.Id_horario
-	JOIN servicios s ON c.Id_servicio = s.Id_servicio
-	JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
-	LEFT JOIN usuarios uh ON h.Id_usuario = uh.Id_usuario
-	LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
-	ORDER BY c.Id_cita ASC`;
+			c.Fecha,
+			c.Dia,
+			c.Hora,
+			s.Servicio,
+			s.Precio,
+			ec.EstadoC,
+			c.Id_servicio,
+			c.Id_estadoC,
+			c.Id_Barbero,
+			uh.Nombre AS BarberoNombre,
+			c.Id_usuario AS Id_cliente,
+			uc.Nombre AS ClienteNombre
+		FROM cita c
+		JOIN servicios s ON c.Id_servicio = s.Id_servicio
+		JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
+		LEFT JOIN usuarios uh ON c.Id_Barbero = uh.Id_usuario
+		LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
+		ORDER BY c.Fecha ASC, c.Hora ASC`;
 		return sql;
 	},
 
+	/**
+	 * CORREGIDO: Busca por 'c.Dia' en lugar de 'h.Dia'.
+	 */
 	obtenerByDiaConDetalles(dia) {
 		var sql = `SELECT c.Id_cita,
-		h.Dia,
-		h.Hora,
-		s.Servicio,
-		s.Precio,
-		ec.EstadoC,
-		c.Id_horario,
-		c.Id_servicio,
-		c.Id_estadoC,
-		h.Id_usuario AS Id_barbero,
-		uh.Nombre AS BarberoNombre,
-		c.Id_usuario AS Id_cliente,
-		uc.Nombre AS ClienteNombre
-	FROM cita c
-	JOIN horarios h ON c.Id_horario = h.Id_horario
-	JOIN servicios s ON c.Id_servicio = s.Id_servicio
-	JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
-	LEFT JOIN usuarios uh ON h.Id_usuario = uh.Id_usuario
-	LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
-	WHERE h.Dia = '${dia}'
-	ORDER BY c.Id_cita ASC`;
+			c.Fecha,
+			c.Dia,
+			c.Hora,
+			s.Servicio,
+			s.Precio,
+			ec.EstadoC,
+			c.Id_servicio,
+			c.Id_estadoC,
+			c.Id_Barbero,
+			uh.Nombre AS BarberoNombre,
+			c.Id_usuario AS Id_cliente,
+			uc.Nombre AS ClienteNombre
+		FROM cita c
+		JOIN servicios s ON c.Id_servicio = s.Id_servicio
+		JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
+		LEFT JOIN usuarios uh ON c.Id_Barbero = uh.Id_usuario
+		LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
+		WHERE c.Dia = '${dia}'
+		ORDER BY c.Fecha ASC, c.Hora ASC`;
 		return sql;
 	},
 
@@ -69,63 +83,70 @@ module.exports = {
 		return sql;
 	},
 
-	/** Obtiene todos los detalles de una Cita específica por su ID. 
-	 * Incluye JOINS con barbero, cliente, servicio, etc.
+	/**
+	 * CORREGIDO: La lógica de JOINs es la nueva.
 	 */
 	obtenerByIdConDetalles(idCita) {
 		var sql = `SELECT c.Id_cita,
-			h.Dia,
-			h.Hora,
+			c.Fecha,
+			c.Dia,
+			c.Hora,
 			s.Servicio,
 			s.Precio,
 			ec.EstadoC,
-			c.Id_horario,
 			c.Id_servicio,
 			c.Id_estadoC,
-			h.Id_usuario AS Id_barbero,
+			c.Id_Barbero,
 			uh.Nombre AS BarberoNombre,
 			c.Id_usuario AS Id_cliente,
 			uc.Nombre AS ClienteNombre
 		FROM cita c
-		JOIN horarios h ON c.Id_horario = h.Id_horario
 		JOIN servicios s ON c.Id_servicio = s.Id_servicio
 		JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
-		LEFT JOIN usuarios uh ON h.Id_usuario = uh.Id_usuario
+		LEFT JOIN usuarios uh ON c.Id_Barbero = uh.Id_usuario
 		LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
-		WHERE c.Id_cita = ${idCita}`; // El filtro por ID de Cita
+		WHERE c.Id_cita = ${idCita}`;
 		return sql;
 	},
 
+	/**
+	 * CORREGIDO: La lógica de JOINs es la nueva.
+	 */
 	obtenerByUsuarioConDetalles(idUsuario) {
 		var sql = `SELECT c.Id_cita,
-		h.Dia,
-		h.Hora,
-		s.Servicio,
-		s.Precio,
-		ec.EstadoC,
-		c.Id_horario,
-		c.Id_servicio,
-		c.Id_estadoC,
-		h.Id_usuario AS Id_barbero,
-		uh.Nombre AS BarberoNombre,
-		c.Id_usuario AS Id_cliente,
-		uc.Nombre AS ClienteNombre
-	FROM cita c
-	JOIN horarios h ON c.Id_horario = h.Id_horario
-	JOIN servicios s ON c.Id_servicio = s.Id_servicio
-	JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
-	LEFT JOIN usuarios uh ON h.Id_usuario = uh.Id_usuario
-	LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
-	WHERE c.Id_usuario = ${idUsuario}
-	ORDER BY h.Dia ASC, h.Hora ASC`;
+			c.Fecha,
+			c.Dia,
+			c.Hora,
+			s.Servicio,
+			s.Precio,
+			ec.EstadoC,
+			c.Id_servicio,
+			c.Id_estadoC,
+			c.Id_Barbero,
+			uh.Nombre AS BarberoNombre,
+			c.Id_usuario AS Id_cliente,
+			uc.Nombre AS ClienteNombre
+		FROM cita c
+		JOIN servicios s ON c.Id_servicio = s.Id_servicio
+		JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
+		LEFT JOIN usuarios uh ON c.Id_Barbero = uh.Id_usuario
+		LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
+		WHERE c.Id_usuario = ${idUsuario}
+		ORDER BY c.Fecha ASC, c.Hora ASC`;
 		return sql;
 	},
 
+	/**
+	 * CORREGIDO: Actualiza los nuevos campos.
+	 */
 	actualizar(cita) {
 		var sql = `UPDATE cita SET
-		Id_horario = '${cita.Id_horario}',
-		Id_servicio = '${cita.Id_servicio}',
-		Id_estadoC = '${cita.Id_estadoC}'
+			Fecha = '${cita.Fecha}',
+			Dia = '${cita.Dia}',
+			Hora = '${cita.Hora}',
+			Id_Barbero = '${cita.Id_Barbero}',
+			Id_servicio = '${cita.Id_servicio}',
+			Id_estadoC = '${cita.Id_estadoC}'
 		WHERE Id_cita = ${cita.Id_cita}`;
 		return sql;
 	},
