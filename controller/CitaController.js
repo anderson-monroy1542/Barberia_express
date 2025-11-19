@@ -1,58 +1,49 @@
+// controller/CitaController.js
 const { pool } = require("../database/MySQLConexion");
 const citaQuery = require("../querys/CitaQuery");
 
 module.exports = {
-	async insertar(cita) {
-		const [result] = await pool.execute(
-			citaQuery.insertar(cita)
-		);
-		return result.insertId;
-	},
+  
+  async insertar(cita) {
+    const sql = citaQuery.insertar(cita);
+    const [result] = await pool.query(sql);
+    return result.insertId;
+  },
 
-	async obtenerTodos() {
-		const [result] = await pool.query(
-			citaQuery.obtenerTodos()
-		);
-		return result;
-	},
+  async obtenerTodos() {
+    const sql = citaQuery.obtenerTodos();
+    const [rows] = await pool.query(sql);
+    return rows;
+  },
 
-	async obtenerPorDia(dia) {
-		// dia debe ser en formato YYYY-MM-DD
-		const [result] = await pool.query(
-			citaQuery.obtenerByDiaConDetalles(dia)
-		);
-		return result;
-	},
-	/**
-	 * 	Llama al query para obtener una cita específica con detalles.
-	 * 	Devuelve un solo objeto.
-	 */
-	async obtenerByIdConDetalles(idCita) {
-		const [result] = await pool.query(
-			citaQuery.obtenerByIdConDetalles(idCita)
-		);
-		return result[0]; // Devuelve solo el primer resultado
-	},
-	
+  async obtenerPorDia(dia) {
+    const sql = citaQuery.obtenerByDiaConDetalles(dia);
+    const [rows] = await pool.query(sql);
+    return rows;
+  },
 
-	async actualizar(cita) {
-		const [result] = await pool.execute(
-			citaQuery.actualizar(cita)
-		);
-		return result.affectedRows;
-	},
+  async obtenerByIdConDetalles(idCita) {
+    const sql = citaQuery.obtenerByIdConDetalles(idCita);
+    const [rows] = await pool.query(sql);
+    return rows[0];
+  },
 
-	async eliminarById(idCita) {
-		const [result] = await pool.execute(
-			citaQuery.eliminarById(idCita)
-		);
-		return result.affectedRows;
-	},
+  async actualizar(cita) {
+    const sql = citaQuery.actualizar(cita);
+    const [result] = await pool.query(sql);
+    return result.affectedRows;
+  },
 
-	async obtenerByUsuario(idUsuario) {
-		const [result] = await pool.query(
-			citaQuery.obtenerByUsuarioConDetalles(idUsuario)
-		);
-		return result;
-	}
+  async eliminarById(idCita) {
+    const sql = citaQuery.eliminarById(idCita);
+    const [result] = await pool.query(sql);
+    return result.affectedRows;
+  },
+
+  async obtenerByUsuario(idUsuario) {
+    const sql = citaQuery.obtenerByUsuarioConDetalles(idUsuario);
+    const [rows] = await pool.query(sql);
+    return rows;
+  }
+
 };
