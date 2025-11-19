@@ -147,5 +147,4 @@ module.exports = {
   eliminarById(idCita) {
     return `DELETE FROM Cita WHERE Id_cita = ${idCita};`;
   }
-
 };
