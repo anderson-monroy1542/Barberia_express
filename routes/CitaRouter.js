@@ -3,11 +3,13 @@ const citaController = require('../controller/CitaController');
 const router = Router();
 
 router.post('/citas/add', (req, res) => {
-  citaController.insertar(req.body)
-    .then(result => res.json(result))
-    .catch(err => {
-      console.log(err);
-      res.status(500).send('exception generada');
+  const cita = req.body;
+
+    citaController.insertar(cita).then((result) => {
+        return res.json({ insertId: result });
+    }).catch((err) => {
+        console.log(err);
+        return res.status(500).send(err.toString()); //mensaje de error
     });
 });
 
@@ -97,6 +99,7 @@ router.delete('/citas/delete/:id', (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).send('exception generada');
-    });
+    
+  });
 });
 module.exports = router;
