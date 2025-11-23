@@ -2,6 +2,10 @@ const { Router } = require("express");
 const usuariosController = require('../controller/UsuariosController');
 const router = Router();
 
+router.get('/usuarios', usuariosController.getUsuariosFiltrados); 
+
+module.exports = router;
+
 router.post('/usuarios/registrar', (req, res) => {
     const usuario = req.body;
     usuariosController.insertar(usuario).then((result) => {

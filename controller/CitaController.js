@@ -81,14 +81,6 @@ module.exports = {
         return result.affectedRows;
     },
 
-<<<<<<< HEAD
-	async obtenerByUsuario(idUsuario) {
-        const query = citaQuery.obtenerByUsuarioConDetalles(idUsuario);
-		const [result] = await pool.query(query.sql, query.values);
-		return result;
-	}
-};
-=======
     async eliminarById(idCita) {
         const [result] = await pool.execute(
         citaQuery.eliminarById(idCita)
@@ -103,4 +95,3 @@ module.exports = {
         return result;
     }
 };
->>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b

@@ -58,5 +58,30 @@ module.exports = {
         const sql = usuariosQuery.obtenerClientes();
         const [result] = await pool.query(sql);
         return result; //lista de clientes
+    },
+
+    
+    async getUsuariosFiltrados(req, res) {
+        try {
+            // 1. Obtener los parámetros de búsqueda (search) y filtro (role_id) de la URL
+            const { search, role_id } = req.query;
+
+            // 2. Ejecutar la consulta en la base de datos con los filtros.
+            const usuarios = await usuariosQuery.buscarUsuarios({ search, role_id });
+
+            // 3. Respuesta exitosa
+            return res.json({
+                status: 'success',
+                usuarios: usuarios // El array de usuarios
+            });
+
+        } catch (error) {
+            console.error('Error al obtener usuarios filtrados:', error);
+            // Respuesta de error estándar
+            return res.status(500).json({ 
+                status: 'error', 
+                message: 'Error interno del servidor al buscar usuarios.' 
+            });
+        }
     }
 };
