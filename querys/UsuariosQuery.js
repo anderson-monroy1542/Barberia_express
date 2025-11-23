@@ -21,6 +21,30 @@ module.exports = {
         };
 	},
 
+    actualizar(usuario) {
+    return {
+        sql: `
+            UPDATE usuarios
+            SET 
+                Nombre = ?,
+                Apellido = ?,
+                Correo = ?,
+                Contrasena = ?,
+                Id_rol = ?
+            WHERE Id_usuario = ?
+        `,
+        values: [
+            usuario.Nombre,
+            usuario.Apellido,
+            usuario.Correo,
+            usuario.Contrasena,
+            usuario.Id_rol,
+            usuario.Id_usuario
+        ]
+    };
+},
+
+    //==========================Nelson====================================
     obtenerBarberos() {
         return `SELECT Id_usuario, Nombre, Apellido 
                 FROM usuarios 
@@ -33,4 +57,7 @@ module.exports = {
                 WHERE Id_rol = 3 
                 ORDER BY Nombre ASC`;
     }
+    //===============================Nelson=================================//
+
+    
 };

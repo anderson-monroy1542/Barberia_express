@@ -58,13 +58,13 @@ module.exports = {
         return sql;
     },
 
-    actualizar(resena) {
-        var sql = `UPDATE resenas SET
-        Comentario = '${resena.Comentario}',
-        Puntuacion = '${resena.Puntuacion}'
-        WHERE Id_resena = ${resena.Id_resena}`;
-        return sql;
-    },
+	actualizar(resena) {
+		var sql = `UPDATE resenas SET
+		Comentario = '${resena.Comentario}',
+		Puntuacion = '${resena.Puntuacion}',
+		WHERE Id_resena = ${resena.Id_resena}`;
+		return sql;
+	},
 
     eliminarById(idResena) {
         var sql = `DELETE FROM resenas WHERE Id_resena = ${idResena}`;

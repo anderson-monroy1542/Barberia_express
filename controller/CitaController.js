@@ -54,38 +54,53 @@ module.exports = {
     },
 
 	async obtenerTodos() {
-		const sql = citaQuery.obtenerTodos();
-		const [result] = await pool.query(sql);
-		return result;
-	},
+    const [result] = await pool.query(
+        citaQuery.obtenerTodos()
+        );
+        return result;
+    },
 
-	async obtenerPorDia(dia) {
-        const query = citaQuery.obtenerByDiaConDetalles(dia);
-		const [result] = await pool.query(query.sql, query.values);
-		return result;
-	},
+    async obtenerPorDia(dia) {
+        const [result] = await pool.query(
+        citaQuery.obtenerByDiaConDetalles(dia)
+        );
+        return result;
+    },
 
-	async obtenerByIdConDetalles(idCita) {
-        const query = citaQuery.obtenerByIdConDetalles(idCita);
-		const [result] = await pool.query(query.sql, query.values);
-		return result[0]; 
-	},
-	
-	async actualizar(cita) {
-        const query = citaQuery.actualizar(cita);
-		const [result] = await pool.execute(query.sql, query.values);
-		return result.affectedRows;
-	},
+    async obtenerByIdConDetalles(idCita) {
+        const [result] = await pool.query(
+        citaQuery.obtenerByIdConDetalles(idCita)
+        );
+        return result[0];
+    },
 
-	async eliminarById(idCita) {
-        const query = citaQuery.eliminarById(idCita);
-		const [result] = await pool.execute(query.sql, query.values);
-		return result.affectedRows;
-	},
+    async actualizar(cita) {
+        const [result] = await pool.execute(
+        citaQuery.actualizar(cita)
+        );
+        return result.affectedRows;
+    },
 
+<<<<<<< HEAD
 	async obtenerByUsuario(idUsuario) {
         const query = citaQuery.obtenerByUsuarioConDetalles(idUsuario);
 		const [result] = await pool.query(query.sql, query.values);
 		return result;
 	}
 };
+=======
+    async eliminarById(idCita) {
+        const [result] = await pool.execute(
+        citaQuery.eliminarById(idCita)
+        );
+        return result.affectedRows;
+    },
+
+    async obtenerByUsuario(idUsuario) {
+        const [result] = await pool.query(
+        citaQuery.obtenerByUsuarioConDetalles(idUsuario)
+        );
+        return result;
+    }
+};
+>>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b

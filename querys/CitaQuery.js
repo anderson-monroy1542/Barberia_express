@@ -1,5 +1,6 @@
 // querys/CitaQuery.js
 module.exports = {
+<<<<<<< HEAD
 
   /*insertar(cita) {
     return `
@@ -25,6 +26,37 @@ module.exports = {
   },
 
   obtenerTodos() {
+=======
+  //esto es de nelson
+	insertar(cita) {
+		var sql = `INSERT INTO cita (
+			Fecha,
+			Dia,
+			Hora,
+			Id_Barbero,
+			Id_servicio,
+			Id_estadoC,
+			Id_usuario
+		) VALUES (
+			?, ?, ?, ?, ?, ?, ?
+		)`;
+        
+        return {
+            sql,
+            values: [
+                cita.Fecha,
+                cita.Dia,
+                cita.Hora,
+                cita.Id_Barbero,
+                cita.Id_servicio,
+                1, //Id_estadoC en 1 (Pendiente)
+                cita.Id_usuario
+            ]
+        };
+	},
+  //====================================================================
+
+	obtenerTodos() {
     return `
       SELECT 
         c.Id_cita,
@@ -51,6 +83,38 @@ module.exports = {
   },
 
   obtenerByDiaConDetalles(dia) {
+>>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
+    return `
+      SELECT 
+        c.Id_cita,
+        c.Fecha,
+        c.Dia,
+        c.Hora,
+        c.Id_Barbero,
+        ub.Nombre AS BarberoNombre,
+        c.Id_servicio,
+        s.Servicio,
+        s.Descripcion,
+        s.Precio,
+        c.Id_estadoC,
+        ec.EstadoC,
+        c.Id_usuario AS Id_cliente,
+        uc.Nombre AS ClienteNombre
+      FROM Cita c
+      JOIN Usuarios ub ON c.Id_Barbero = ub.Id_usuario
+      JOIN Servicios s ON c.Id_servicio = s.Id_servicio
+      JOIN EstadoCita ec ON c.Id_estadoC = ec.Id_estadoC
+      JOIN Usuarios uc ON c.Id_usuario = uc.Id_usuario
+<<<<<<< HEAD
+=======
+      WHERE c.Dia = '${dia}'
+>>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
+      ORDER BY c.Fecha ASC, c.Hora ASC;
+    `;
+  },
+
+<<<<<<< HEAD
+  obtenerByDiaConDetalles(dia) {
     return `
       SELECT 
         c.Id_cita,
@@ -75,6 +139,11 @@ module.exports = {
       WHERE c.Dia = '${dia}'
       ORDER BY c.Fecha ASC, c.Hora ASC;
     `;
+=======
+  obtenerById(idCita) {
+        var sql = `SELECT * FROM cita WHERE Id_cita = ${idCita}`;
+        return sql;
+>>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
   },
 
   obtenerByIdConDetalles(idCita) {
@@ -146,6 +215,7 @@ module.exports = {
 
   eliminarById(idCita) {
     return `DELETE FROM Cita WHERE Id_cita = ${idCita};`;
+<<<<<<< HEAD
   }
 };*/
     insertar(cita) {
@@ -167,6 +237,20 @@ module.exports = {
             '${cita.Id_usuario}'
         )`;
         return sql;
+=======
+  },
+
+  //==========================Nelson====================================
+    verificarDisponibilidad(cita) {
+        return {
+            sql: `SELECT COUNT(*) as total 
+                    FROM cita 
+                    WHERE Id_Barbero = ? 
+                    AND Fecha = ? 
+                    AND Hora = ?`,
+            values: [cita.Id_Barbero, cita.Fecha, cita.Hora]
+        };
+>>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
     },
 
     obtenerTodos() {
@@ -191,6 +275,7 @@ module.exports = {
         ORDER BY c.Fecha ASC, c.Hora ASC`;
         return sql;
     },
+<<<<<<< HEAD
 
     obtenerByDiaConDetalles(dia) {
         var sql = `SELECT c.Id_cita,
@@ -288,3 +373,7 @@ module.exports = {
 };
 	
 
+=======
+    //===============================Nelson=================================
+};
+>>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
