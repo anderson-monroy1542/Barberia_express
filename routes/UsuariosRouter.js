@@ -31,6 +31,25 @@ router.get('/usuarios/barberos', (req, res) => {
     });
 });
 
+router.put('/usuarios/:id', async (req, res) => {
+    const id = req.params.id;
+    const datos = req.body;
+
+    try {
+        datos.Id_usuario = id;
+
+        const result = await usuariosController.actualizar(datos);
+
+        res.json({
+            message: "Usuario actualizado correctamente",
+            result
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error al actualizar usuario");
+    }
+});
+
 router.get('/usuarios/clientes', (req, res) => {
     usuariosController.obtenerClientes().then((result) => {
         return res.json(result); //clientes

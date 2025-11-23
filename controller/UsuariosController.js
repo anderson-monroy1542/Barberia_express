@@ -43,6 +43,11 @@ module.exports = {
             throw error
         }
     },
+    async actualizar(usuario) {
+        const query = usuariosQuery.actualizar(usuario);
+        const [result] = await pool.query(query.sql, query.values);
+        return result;
+    },
 
     async obtenerBarberos() {
         const sql = usuariosQuery.obtenerBarberos();

@@ -62,7 +62,6 @@ module.exports = {
 		var sql = `UPDATE resenas SET
 		Comentario = '${resena.Comentario}',
 		Puntuacion = '${resena.Puntuacion}',
-		Id_cita = '${resena.Id_cita}'
 		WHERE Id_resena = ${resena.Id_resena}`;
 		return sql;
 	},

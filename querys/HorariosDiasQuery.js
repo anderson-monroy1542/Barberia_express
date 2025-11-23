@@ -1,10 +1,12 @@
 module.exports = {
+    //==========================Nelson====================================
 	insertar(horario) {
 		return {
             sql: `INSERT INTO horariodias (inicio, fin, Id_dia) VALUES (?, ?, ?)`,
             values: [horario.inicio, horario.fin, horario.Id_dia]
         };
 	},
+    //===============================Nelson=================================
 
 	obtenerTodos() {
 		var sql = `SELECT 
@@ -34,6 +36,7 @@ module.exports = {
         };
     },
 
+    //==========================Nelson====================================
 	actualizar(horario) {
 		return {
             sql: `UPDATE horariodias SET
@@ -43,6 +46,7 @@ module.exports = {
             values: [horario.inicio, horario.fin, horario.Id_HorarioDia]
         };
 	},
+    //===============================Nelson=================================
 
 	eliminarById(idHorarioDia) {
 		return {
