@@ -1,32 +1,5 @@
 // querys/CitaQuery.js
 module.exports = {
-<<<<<<< HEAD
-
-  /*insertar(cita) {
-    return `
-      INSERT INTO Cita (
-        Fecha,
-        Dia,
-        Hora,
-        Id_Barbero,
-        Id_servicio,
-        Id_estadoC,
-        Id_usuario
-      )
-      VALUES (
-        '${cita.Fecha}',
-        '${cita.Dia}',
-        '${cita.Hora}',
-        '${cita.Id_Barbero}',
-        '${cita.Id_servicio}',
-        '${cita.Id_estadoC}',
-        '${cita.Id_usuario}'
-      );
-    `;
-  },
-
-  obtenerTodos() {
-=======
   //esto es de nelson
 	insertar(cita) {
 		var sql = `INSERT INTO cita (
@@ -83,7 +56,6 @@ module.exports = {
   },
 
   obtenerByDiaConDetalles(dia) {
->>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
     return `
       SELECT 
         c.Id_cita,
@@ -105,45 +77,14 @@ module.exports = {
       JOIN Servicios s ON c.Id_servicio = s.Id_servicio
       JOIN EstadoCita ec ON c.Id_estadoC = ec.Id_estadoC
       JOIN Usuarios uc ON c.Id_usuario = uc.Id_usuario
-<<<<<<< HEAD
-=======
       WHERE c.Dia = '${dia}'
->>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
       ORDER BY c.Fecha ASC, c.Hora ASC;
     `;
   },
 
-<<<<<<< HEAD
-  obtenerByDiaConDetalles(dia) {
-    return `
-      SELECT 
-        c.Id_cita,
-        c.Fecha,
-        c.Dia,
-        c.Hora,
-        c.Id_Barbero,
-        ub.Nombre AS BarberoNombre,
-        c.Id_servicio,
-        s.Servicio,
-        s.Descripcion,
-        s.Precio,
-        c.Id_estadoC,
-        ec.EstadoC,
-        c.Id_usuario AS Id_cliente,
-        uc.Nombre AS ClienteNombre
-      FROM Cita c
-      JOIN Usuarios ub ON c.Id_Barbero = ub.Id_usuario
-      JOIN Servicios s ON c.Id_servicio = s.Id_servicio
-      JOIN EstadoCita ec ON c.Id_estadoC = ec.Id_estadoC
-      JOIN Usuarios uc ON c.Id_usuario = uc.Id_usuario
-      WHERE c.Dia = '${dia}'
-      ORDER BY c.Fecha ASC, c.Hora ASC;
-    `;
-=======
   obtenerById(idCita) {
         var sql = `SELECT * FROM cita WHERE Id_cita = ${idCita}`;
         return sql;
->>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
   },
 
   obtenerByIdConDetalles(idCita) {
@@ -215,29 +156,6 @@ module.exports = {
 
   eliminarById(idCita) {
     return `DELETE FROM Cita WHERE Id_cita = ${idCita};`;
-<<<<<<< HEAD
-  }
-};*/
-    insertar(cita) {
-        var sql = `INSERT INTO cita (
-            Fecha,
-            Dia,
-            Hora,
-            Id_Barbero,
-            Id_servicio,
-            Id_estadoC,
-            Id_usuario
-        ) VALUES (
-            '${cita.Fecha}',
-            '${cita.Dia}',
-            '${cita.Hora}',
-            '${cita.Id_Barbero}',
-            '${cita.Id_servicio}',
-            '${cita.Id_estadoC}',
-            '${cita.Id_usuario}'
-        )`;
-        return sql;
-=======
   },
 
   //==========================Nelson====================================
@@ -250,7 +168,6 @@ module.exports = {
                     AND Hora = ?`,
             values: [cita.Id_Barbero, cita.Fecha, cita.Hora]
         };
->>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
     },
 
     obtenerTodos() {
@@ -275,105 +192,5 @@ module.exports = {
         ORDER BY c.Fecha ASC, c.Hora ASC`;
         return sql;
     },
-<<<<<<< HEAD
-
-    obtenerByDiaConDetalles(dia) {
-        var sql = `SELECT c.Id_cita,
-            c.Fecha,
-            c.Dia,
-            c.Hora,
-            s.Servicio,
-            s.Precio,
-            ec.EstadoC,
-            c.Id_servicio,
-            c.Id_estadoC,
-            c.Id_Barbero,
-            uh.Nombre AS BarberoNombre,
-            c.Id_usuario AS Id_cliente,
-            uc.Nombre AS ClienteNombre
-        FROM cita c
-        JOIN servicios s ON c.Id_servicio = s.Id_servicio
-        JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
-        LEFT JOIN usuarios uh ON c.Id_Barbero = uh.Id_usuario
-        LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
-        WHERE c.Dia = '${dia}'
-        ORDER BY c.Fecha ASC, c.Hora ASC`;
-        return sql;
-    },
-
-    obtenerById(idCita) {
-        var sql = `SELECT * FROM cita WHERE Id_cita = ${idCita}`;
-        return sql;
-    },
-
-    obtenerByIdConDetalles(idCita) {
-        var sql = `SELECT c.Id_cita,
-            c.Fecha,
-            c.Dia,
-            c.Hora,
-            s.Servicio,
-            s.Precio,
-            ec.EstadoC,
-            c.Id_servicio,
-            c.Id_estadoC,
-            c.Id_Barbero,
-            uh.Nombre AS BarberoNombre,
-            c.Id_usuario AS Id_cliente,
-            uc.Nombre AS ClienteNombre
-        FROM cita c
-        JOIN servicios s ON c.Id_servicio = s.Id_servicio
-        JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
-        LEFT JOIN usuarios uh ON c.Id_Barbero = uh.Id_usuario
-        LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
-        WHERE c.Id_cita = ${idCita}`;
-        return sql;
-    },
-
-    obtenerByUsuarioConDetalles(idUsuario) {
-        var sql = `SELECT c.Id_cita,
-            c.Fecha,
-            c.Dia,
-            c.Hora,
-            s.Servicio,
-            s.Precio,
-            ec.EstadoC,
-            c.Id_servicio,
-            c.Id_estadoC,
-            c.Id_Barbero,
-            uh.Nombre AS BarberoNombre,
-            c.Id_usuario AS Id_cliente,
-            uc.Nombre AS ClienteNombre
-        FROM cita c
-        JOIN servicios s ON c.Id_servicio = s.Id_servicio
-        JOIN estadocita ec ON c.Id_estadoC = ec.Id_estadoC
-        LEFT JOIN usuarios uh ON c.Id_Barbero = uh.Id_usuario
-        LEFT JOIN usuarios uc ON c.Id_usuario = uc.Id_usuario
-        WHERE c.Id_usuario = ${idUsuario}
-        ORDER BY c.Fecha ASC, c.Hora ASC`;
-        return sql;
-    },
-
-    actualizar(cita) {
-        var sql = `UPDATE cita SET
-            Fecha = '${cita.Fecha}',
-            Dia = '${cita.Dia}',
-            Hora = '${cita.Hora}',
-            Id_Barbero = '${cita.Id_Barbero}',
-            Id_servicio = '${cita.Id_servicio}',
-            Id_estadoC = '${cita.Id_estadoC}',
-            Id_usuario = '${cita.Id_usuario}'
-        WHERE Id_cita = ${cita.Id_cita}`;
-        return sql;
-    },
-
-    eliminarById(idCita) {
-        var sql = `DELETE FROM cita WHERE Id_cita = ${idCita}`;
-        return sql;
-    }
-};
-	
-
-=======
     //===============================Nelson=================================
 };
->>>>>>> 718e910094e9f45fd88e5371f0f50a2148a6987b
