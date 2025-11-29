@@ -22,6 +22,43 @@ module.exports = {
 	},
 
     actualizar(usuario) {
+        let fields = [];
+        let values = [];
+        if (usuario.Nombre) {
+            fields.push('Nombre = ?');
+            values.push(usuario.Nombre);
+        }
+        if (usuario.Apellido) {
+            fields.push('Apellido = ?');
+            values.push(usuario.Apellido);
+        }
+        if (usuario.Correo) {
+            fields.push('Correo = ?');
+            values.push(usuario.Correo);
+        }
+        if (usuario.Contrasena && usuario.Contrasena !== '') {
+            fields.push('Contrasena = ?');
+            values.push(usuario.Contrasena);
+        }
+        if (usuario.Id_rol) {
+            fields.push('Id_rol = ?');
+            values.push(usuario.Id_rol);
+        }
+
+        // Si no hay campos para actualizar, la actualización no tiene sentido, pero el Controller lo verifica
+        if (fields.length === 0) {
+            return { sql: '', values: [] };
+        }
+
+        // Construir la consulta SQL
+        let sql = `UPDATE usuarios SET ${fields.join(', ')} WHERE Id_usuario = ?`;
+        values.push(usuario.Id_usuario);
+
+        return {
+            sql: sql,
+            values: values
+        };
+        //corregiendo error de actualizacion completa
     return {
         sql: `
             UPDATE usuarios
@@ -58,7 +95,7 @@ module.exports = {
                 ORDER BY Nombre ASC`;
     },
     //===============================Nelson=================================//
-    // ==========================NUEVAS FUNCIONES ADMIN====================================
+    // ==========================josue====================================
     obtenerTodosConRol() {
         var sql = `SELECT 
             u.Id_usuario, 
