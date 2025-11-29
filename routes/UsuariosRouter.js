@@ -78,5 +78,32 @@ router.delete('/usuarios/delete/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno del servidor' });
     }
 });
+// ==========================NUEVAS RUTAS ADMIN====================================
+// GET /usuarios/get/all-admin (Obtener todos los usuarios con rol)
+router.get('/usuarios/get/all-admin', async (req, res) => {
+    try {
+        const usuarios = await usuariosController.obtenerTodosConRol();
+        res.json(usuarios);
+    } catch (error) {
+        console.error('Error al obtener todos los usuarios:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+});
+
+// DELETE /usuarios/delete/:id (Eliminar usuario)
+router.delete('/usuarios/delete/:id', async (req, res) => {
+    try {
+        const idUsuario = req.params.id;
+        const affectedRows = await usuariosController.eliminarById(idUsuario);
+        if (affectedRows > 0) {
+            res.json({ message: 'Usuario eliminado correctamente' });
+        } else {
+            res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al eliminar usuario:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+});
 
 module.exports = router;
