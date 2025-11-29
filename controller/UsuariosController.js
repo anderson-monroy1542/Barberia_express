@@ -83,5 +83,18 @@ module.exports = {
                 message: 'Error interno del servidor al buscar usuarios.' 
             });
         }
+    },
+
+    // ==========================NUEVAS FUNCIONES ADMIN====================================
+    async obtenerTodosConRol() {
+        const sql = usuariosQuery.obtenerTodosConRol();
+        const [result] = await pool.query(sql);
+        return result; // Lista de todos los usuarios con detalle de rol
+    },
+
+    async eliminarById(idUsuario) {
+        const query = usuariosQuery.eliminarById(idUsuario);
+        const [result] = await pool.execute(query.sql, query.values);
+        return result.affectedRows; // Debería ser 1 si se eliminó
     }
 };

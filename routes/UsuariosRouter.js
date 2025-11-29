@@ -61,6 +61,22 @@ router.get('/usuarios/clientes', (req, res) => {
         console.log(err);
         return res.status(500).send(err.toString());
     });
+    
+});
+// DELETE /usuarios/delete/:id (Eliminar usuario)
+router.delete('/usuarios/delete/:id', async (req, res) => {
+    try {
+        const idUsuario = req.params.id;
+        const affectedRows = await usuariosController.eliminarById(idUsuario);
+        if (affectedRows > 0) {
+            res.json({ message: 'Usuario eliminado correctamente' });
+        } else {
+            res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al eliminar usuario:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 });
 
 module.exports = router;
