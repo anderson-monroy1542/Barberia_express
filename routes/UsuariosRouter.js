@@ -63,7 +63,7 @@ router.get('/usuarios/clientes', (req, res) => {
     });
     
 });
-// DELETE /usuarios/delete/:id (Eliminar usuario)
+// Eliminar usuario
 router.delete('/usuarios/delete/:id', async (req, res) => {
     try {
         const idUsuario = req.params.id;
@@ -78,8 +78,8 @@ router.delete('/usuarios/delete/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno del servidor' });
     }
 });
-// ==========================NUEVAS RUTAS ADMIN====================================
-// GET /usuarios/get/all-admin (Obtener todos los usuarios con rol)
+
+// Obtener todos los usuarios con rol
 router.get('/usuarios/get/all-admin', async (req, res) => {
     try {
         const usuarios = await usuariosController.obtenerTodosConRol();
@@ -90,7 +90,7 @@ router.get('/usuarios/get/all-admin', async (req, res) => {
     }
 });
 
-// DELETE /usuarios/delete/:id (Eliminar usuario)
+// Eliminar usuario
 router.delete('/usuarios/delete/:id', async (req, res) => {
     try {
         const idUsuario = req.params.id;

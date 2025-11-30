@@ -63,21 +63,21 @@ module.exports = {
     
     async getUsuariosFiltrados(req, res) {
         try {
-            // 1. Obtener los parámetros de búsqueda (search) y filtro (role_id) de la URL
+            //obtener los parámetros de búsqueda y filtro de la url
             const { search, role_id } = req.query;
 
-            // 2. Ejecutar la consulta en la base de datos con los filtros.
+            //ejecutar la consulta en la base de datos con los filtros.
             const usuarios = await usuariosQuery.buscarUsuarios({ search, role_id });
 
-            // 3. Respuesta exitosa
+
             return res.json({
                 status: 'success',
-                usuarios: usuarios // El array de usuarios
+                usuarios: usuarios //array de usuarios
             });
 
         } catch (error) {
             console.error('Error al obtener usuarios filtrados:', error);
-            // Respuesta de error estándar
+            // respuesta de error
             return res.status(500).json({ 
                 status: 'error', 
                 message: 'Error interno del servidor al buscar usuarios.' 
@@ -85,16 +85,16 @@ module.exports = {
         }
     },
 
-    // ==========================NUEVAS FUNCIONES ADMIN====================================
+    // ==========================erazo====================================
     async obtenerTodosConRol() {
         const sql = usuariosQuery.obtenerTodosConRol();
         const [result] = await pool.query(sql);
-        return result; // Lista de todos los usuarios con detalle de rol
+        return result; //lista de los usuarios con detalle de rol
     },
 
     async eliminarById(idUsuario) {
         const query = usuariosQuery.eliminarById(idUsuario);
         const [result] = await pool.execute(query.sql, query.values);
-        return result.affectedRows; // Debería ser 1 si se eliminó
+        return result.affectedRows; // deberia ser 1 si se eliminó
     }
 };
